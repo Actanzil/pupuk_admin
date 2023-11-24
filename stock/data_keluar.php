@@ -6,18 +6,18 @@ include '../dbconnect.php';
 include 'cek.php';
 
 if (isset($_POST['update'])) {
-    $id = $_POST['id']; //iddata
-    $idx = $_POST['idx']; //idbarang
+    $id_keluar = $_POST['id_keluar']; //id data keluar
+    $id_barang = $_POST['id_barang']; //id barang
     $jumlah = $_POST['jumlah'];
     $penerima = $_POST['penerima'];
     $keterangan = $_POST['keterangan'];
     $tanggal = $_POST['tanggal'];
 
-    $lihatstock = mysqli_query($conn, "SELECT * FROM barang WHERE idx='$idx'"); //lihat stock barang itu saat ini
+    $lihatstock = mysqli_query($conn, "SELECT * FROM tb_barang WHERE id_barang = '$id_barang'"); //lihat stock barang itu saat ini
     $stocknya = mysqli_fetch_array($lihatstock); //ambil datanya
     $stockskrg = $stocknya['stock']; //jumlah stocknya skrg
 
-    $lihatdataskrg = mysqli_query($conn, "SELECT * FROM sbrg_keluar WHERE id='$id'"); //lihat qty saat ini
+    $lihatdataskrg = mysqli_query($conn, "SELECT * FROM tb_barang_keluar WHERE id_keluar = '$id_keluar'"); //lihat qty saat ini
     $preqtyskrg = mysqli_fetch_array($lihatdataskrg);
     $qtyskrg = $preqtyskrg['jumlah']; //jumlah skrg
 
@@ -26,8 +26,8 @@ if (isset($_POST['update'])) {
         $hitungselisih = $jumlah - $qtyskrg;
         $kurangistock = $stockskrg - $hitungselisih;
 
-        $queryx = mysqli_query($conn, "UPDATE barang set stock='$kurangistock' WHERE idx='$idx'");
-        $updatedata1 = mysqli_query($conn, "UPDATE sbrg_keluar SET tgl='$tanggal',jumlah='$jumlah', penerima='$penerima',keterangan='$keterangan' where id='$id'");
+        $queryx = mysqli_query($conn, "UPDATE tb_barang SET stock='$kurangistock' WHERE id_barang = '$id_barang'");
+        $updatedata1 = mysqli_query($conn, "UPDATE tb_barang_keluar SET tanggal = '$tanggal', jumlah='$jumlah', penerima='$penerima', keterangan='$keterangan' WHERE id+keluar = '$id_keluar'");
 
         //cek apakah berhasil
         if ($updatedata1 && $queryx) {
@@ -35,21 +35,21 @@ if (isset($_POST['update'])) {
             echo " <div class='alert alert-success'>
                     <strong>Success!</strong> Redirecting you back in 1 seconds.
                 </div>
-                <meta http-equiv='refresh' content='1; url= keluar.php'/>  ";
+                <meta http-equiv='refresh' content='1; url= data_keluar.php'/>  ";
         } else {
             echo "<div class='alert alert-warning'>
                     <strong>Failed!</strong> Redirecting you back in 3 seconds.
                 </div>
-                <meta http-equiv='refresh' content='3; url= keluar.php'/> ";
+                <meta http-equiv='refresh' content='3; url= data_keluar.php'/> ";
         };
     } else {
         //ternyata inputan baru lebih kecil jumlah keluarnya, maka tambahi lagi stock barang
         $hitungselisih = $qtyskrg - $jumlah;
         $tambahistock = $stockskrg + $hitungselisih;
 
-        $query1 = mysqli_query($conn, "UPDATE barang SET stock='$tambahistock' WHERE idx='$idx'");
+        $query1 = mysqli_query($conn, "UPDATE tb_barang SET stock='$tambahistock' WHERE id_barang = '$id_barang'");
 
-        $updatedata = mysqli_query($conn, "UPDATE sbrg_keluar SET tgl='$tanggal', jumlah='$jumlah', penerima='$penerima', keterangan='$keterangan' WHERE id='$id'");
+        $updatedata = mysqli_query($conn, "UPDATE tb_barang_keluar SET tanggal = '$tanggal', jumlah='$jumlah', penerima='$penerima', keterangan='$keterangan' WHERE id_keluar = '$id_keluar'");
 
         //cek apakah berhasil
         if ($query1 && $updatedata) {
@@ -57,32 +57,32 @@ if (isset($_POST['update'])) {
             echo " <div class='alert alert-success'>
                     <strong>Success!</strong> Redirecting you back in 1 seconds.
                 </div>
-                <meta http-equiv='refresh' content='1; url= keluar.php'/>  ";
+                <meta http-equiv='refresh' content='1; url= data_keluar.php'/>  ";
         } else {
             echo "<div class='alert alert-warning'>
                     <strong>Failed!</strong> Redirecting you back in 3 seconds.
                 </div>
-                <meta http-equiv='refresh' content='3; url= keluar.php'/> ";
+                <meta http-equiv='refresh' content='3; url= data_keluar.php'/> ";
         };
     };
 };
 
 if (isset($_POST['hapus'])) {
-    $id = $_POST['id'];
-    $idx = $_POST['idx'];
+    $id_keluar = $_POST['id_keluar'];
+    $id_barang = $_POST['id_barang'];
 
-    $lihatstock = mysqli_query($conn, "SELECT * FROM barang WHERE idx='$idx'"); //lihat stock barang itu saat ini
+    $lihatstock = mysqli_query($conn, "SELECT * FROM tb_barang WHERE id_barang = '$id_barang'"); //lihat stock barang itu saat ini
     $stocknya = mysqli_fetch_array($lihatstock); //ambil datanya
     $stockskrg = $stocknya['stock']; //jumlah stocknya skrg
 
-    $lihatdataskrg = mysqli_query($conn, "SELECT * FROM sbrg_keluar WHERE id='$id'"); //lihat qty saat ini
+    $lihatdataskrg = mysqli_query($conn, "SELECT * FROM tb_barang_keluar WHERE id_keluar = '$id_keluar'"); //lihat qty saat ini
     $preqtyskrg = mysqli_fetch_array($lihatdataskrg);
     $qtyskrg = $preqtyskrg['jumlah']; //jumlah skrg
 
     $adjuststock = $stockskrg + $qtyskrg;
 
-    $queryx = mysqli_query($conn, "UPDATE barang SET stock='$adjuststock' WHERE idx='$idx'");
-    $del = mysqli_query($conn, "DELETE FROM sbrg_keluar WHERE id='$id'");
+    $queryx = mysqli_query($conn, "UPDATE tb_barang SET stock = '$adjuststock' WHERE id_barang = '$id_barang'");
+    $del = mysqli_query($conn, "DELETE FROM tb_barang_keluar WHERE id_keluar = '$id_keluar'");
 
 
     //cek apakah berhasil
@@ -90,13 +90,13 @@ if (isset($_POST['hapus'])) {
 
         echo " <div class='alert alert-success'>
                 <strong>Success!</strong> Redirecting you back in 1 seconds.
-              </div>
-            <meta http-equiv='refresh' content='1; url= keluar.php'/>  ";
+                </div>
+            <meta http-equiv='refresh' content='1; url= data_keluar.php'/>  ";
     } else {
         echo "<div class='alert alert-warning'>
                 <strong>Failed!</strong> Redirecting you back in 1 seconds.
-              </div>
-             <meta http-equiv='refresh' content='1; url= keluar.php'/> ";
+                </div>
+            <meta http-equiv='refresh' content='1; url= data_keluar.php'/> ";
     }
 };
 ?>
@@ -181,20 +181,20 @@ if (isset($_POST['hapus'])) {
                 <div class="menu-inner">
                     <nav>
                         <ul class="metismenu" id="menu">
-                            <li><a href="index.php"><span>Notes</span></a></li>
+                            <li><a href="index.php"><span>Dashboard</span></a></li>
                             <li>
-                                <a href="stock.php"><i class="ti-dashboard"></i><span>Stock Barang</span></a>
+                                <a href="page_barang.php"><i class="ti-dashboard"></i><span>Persediaan Barang</span></a>
                             </li>
                             <li class="active">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout"></i><span>Transaksi Data
                                     </span></a>
                                 <ul class="active">
-                                    <li><a href="masuk.php">Barang Masuk / Kembali</a></li>
-                                    <li class="active"><a href="keluar.php">Barang Keluar</a></li>
+                                    <li><a href="data_masuk.php">Data Masuk</a></li>
+                                    <li class="active"><a href="data_keluar.php">Data Keluar</a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="logout.php"><span>Logout</span></a>
+                                <a href="logout.php"><span>Keluar</span></a>
 
                             </li>
 
@@ -257,7 +257,7 @@ if (isset($_POST['hapus'])) {
                         <div class="breadcrumbs-area clearfix">
                             <ul class="breadcrumbs pull-left">
                                 <li><a href="index.php">Home</a></li>
-                                <li><span>Barang Keluar</span></li>
+                                <li><span>Data Keluar</span></li>
                             </ul>
                         </div>
                     </div>
@@ -274,7 +274,7 @@ if (isset($_POST['hapus'])) {
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-sm-flex justify-content-between align-items-center">
-                                    <h2>Barang Keluar</h2>
+                                    <h2>Data Keluar</h2>
                                     <form action="" onsubmit="return false;">
                                         <input type="text" name="id-bar" id="idx" onkeyup="isi_otomatis()"class="form-control">
                                         <button style="margin-bottom:20px" data-toggle="modal" data-target="#myModal" class="btn btn-info col-md-12" id="submit-add"><span class="glyphicon glyphicon-plus"></span>Tambah</button>
@@ -299,27 +299,27 @@ if (isset($_POST['hapus'])) {
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $brg = mysqli_query($conn, "SELECT * FROM sbrg_keluar sb, barang st where st.idx=sb.idx ORDER BY id DESC");
+                                                $brg = mysqli_query($conn, "SELECT * FROM tb_barang_keluar tbk, tb_barang tb where tbk.id_barang = tb.id_barang ORDER BY id_keluar DESC");
                                                 $no = 1;
                                                 while ($b = mysqli_fetch_array($brg)) {
-                                                    $idb = $b['idx'];
-                                                    $id = $b['id'];
+                                                    $id_barang = $b['id_barang'];
+                                                    $id_keluar = $b['id_keluar'];
 
                                                 ?>
                                                     <tr>
                                                         <td><?php echo $no++ ?></td>
-                                                        <td><?php $tanggals = $b['tgl'];
+                                                        <td><?php $tanggals = $b['tanggal'];
                                                             echo date("d-M-Y", strtotime($tanggals)) ?></td>
                                                         <td><?php echo $b['nama'] ?> <?php echo $b['jenis'] ?> <?php echo $b['merk'] ?></td>
                                                         <td><?php echo $b['ukuran'] ?></td>
                                                         <td><?php echo $b['jumlah'] ?></td>
                                                         <td><?php echo $b['penerima'] ?></td>
                                                         <td><?php echo $b['keterangan'] ?></td>
-                                                        <td><button data-toggle="modal" data-target="#edit<?= $id; ?>" class="btn btn-warning">E</button> <button data-toggle="modal" data-target="#del<?= $id; ?>" class="btn btn-danger">D</button></td>
+                                                        <td><button data-toggle="modal" data-target="#edit<?= $id_keluar; ?>" class="btn btn-warning">E</button> <button data-toggle="modal" data-target="#del<?= $id_keluar; ?>" class="btn btn-danger">D</button></td>
                                                     </tr>
 
                                                     <!-- The Modal -->
-                                                    <div class="modal fade" id="edit<?= $id; ?>">
+                                                    <div class="modal fade" id="edit<?= $id_keluar; ?>">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <form method="post">
@@ -333,7 +333,7 @@ if (isset($_POST['hapus'])) {
                                                                     <div class="modal-body">
 
                                                                         <label for="tanggal">Tanggal</label>
-                                                                        <input type="date" id="tanggal" name="tanggal" class="form-control" value="<?php echo $b['tgl'] ?>">
+                                                                        <input type="date" id="tanggal" name="tanggal" class="form-control" value="<?php echo $b['tanggal'] ?>">
 
                                                                         <label for="nama">Barang</label>
                                                                         <input type="text" id="nama" name="nama" class="form-control" value="<?php echo $b['nama'] ?> <?php echo $b['merk'] ?> <?php echo $b['jenis'] ?>" disabled>
@@ -349,8 +349,8 @@ if (isset($_POST['hapus'])) {
 
                                                                         <label for="keterangan">Keterangan</label>
                                                                         <input type="text" id="keterangan" name="keterangan" class="form-control" value="<?php echo $b['keterangan'] ?>">
-                                                                        <input type="hidden" name="id" value="<?= $id; ?>">
-                                                                        <input type="hidden" name="idx" value="<?= $idb; ?>">
+                                                                        <input type="hidden" name="id_keluar" value="<?= $id_keluar; ?>">
+                                                                        <input type="hidden" name="id_barang" value="<?= $id_barang; ?>">
 
 
                                                                     </div>
@@ -368,7 +368,7 @@ if (isset($_POST['hapus'])) {
 
 
                                                     <!-- The Modal -->
-                                                    <div class="modal fade" id="del<?= $id; ?>">
+                                                    <div class="modal fade" id="del<?= $id_keluar; ?>">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <form method="post">
@@ -383,8 +383,8 @@ if (isset($_POST['hapus'])) {
                                                                         Apakah Anda yakin ingin menghapus barang ini dari daftar stock?
                                                                         <br>
                                                                         *Stock barang akan bertambah
-                                                                        <input type="hidden" name="id" value="<?= $id; ?>">
-                                                                        <input type="hidden" name="idx" value="<?= $idb; ?>">
+                                                                        <input type="hidden" name="id_keluar" value="<?= $id_keluar; ?>">
+                                                                        <input type="hidden" name="id_barang" value="<?= $id_barang; ?>">
                                                                     </div>
 
                                                                     <!-- Modal footer -->
@@ -437,7 +437,7 @@ if (isset($_POST['hapus'])) {
                     <h4 class="modal-title">Input Barang Keluar</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="barang_keluar_act.php" method="post">
+                    <form action="konfirmasi_barang_keluar.php" method="post">
                         <!-- <div class="form-group">
                             <label>Tanggal</label>
                             <input name="tanggal" type="date" class="form-control">
