@@ -4,10 +4,10 @@
     
 
     //variabel nim yang dikirimkan form.php
-    $idx = $_GET['idx'];
+    $id_barang = $_GET['idx'];
 
     //mengambil data
-    $query = mysqli_query($conn, "SELECT * FROM barang WHERE idx='$idx'");
+    $query = mysqli_query($conn, "SELECT * FROM tb_barang WHERE id_barang='$id_barang'");
     $barang = mysqli_fetch_array($query);
     $data = array('nama'     =>  @$barang['nama'],);
             
