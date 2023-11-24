@@ -8,9 +8,7 @@
 
 <head>
     <meta charset="utf-8">
-	<link rel="icon" 
-      type="image/png" 
-      href="../favicon.png">
+	<link rel="icon" type="image/png" href="../favicon.png">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Logistics</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,11 +22,12 @@
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144808195-1"></script>
 	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-
-	  gtag('config', 'UA-144808195-1');
+	    window.dataLayer = window.dataLayer || [];
+	    function gtag(){
+            dataLayer.push(arguments);
+        }
+	    gtag('js', new Date());
+	    gtag('config', 'UA-144808195-1');
 	</script>
     <!-- amchart css -->
     <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />

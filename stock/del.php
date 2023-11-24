@@ -13,17 +13,17 @@
 <div class="container">
 
 <?php
-session_start();
-if(!isset($_SESSION['id']) || $_SESSION['role'] !== 'Purchasing') //you can add more checks
-{
-   //redirect to login page
-   header("Location: ../index.php");
-}
+  session_start();
+  if(!isset($_SESSION['id_user']) || $_SESSION['role'] !== 'Purchasing') //you can add more checks
+  {
+    //redirect to login page
+    header("Location: ../index.php");
+  }
 include_once '../dbconnect.php';
-$res=mysqli_query($conn,"SELECT * FROM slogin WHERE id=".$_SESSION['id']);
+$res=mysqli_query($conn,"SELECT * FROM user WHERE id_user=".$_SESSION['id_user']);
 
-$id = $_POST['id'];
-$update = "delete from notes where id = '$id'";
+$id = $_POST['id_user'];
+$update = "DELETE FROM notes where id = '$id'";
 $hasil = mysqli_query($conn,$update);
 
 
@@ -37,7 +37,7 @@ echo " <div class='alert alert-success'>
 } else { echo "<div class='alert alert-warning'>
     <strong>Failed!</strong> Redirecting you back in 1 seconds.
   </div>
- <meta http-equiv='refresh' content='1; url= index.php'/> ";
+  <meta http-equiv='refresh' content='1; url= index.php'/> ";
 }
 ?>
 
