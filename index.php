@@ -24,21 +24,21 @@ if (isset($_POST['btn-login'])) {
 	$upass = mysqli_real_escape_string($conn, md5($_POST['password']));
 
 	// menyeleksi data user dengan username dan password yang sesuai
-	$login = mysqli_query($conn, "select * from slogin where username='$uname' and password='$upass';");
+	$login = mysqli_query($conn, "SELECT * FROM user WHERE username='$uname' and password='$upass';");
 	// menghitung jumlah data yang ditemukan
 	$cek = mysqli_num_rows($login);
 
-	// cek apakah username dan password di temukan pada database
+	// cek apakah username dan password di temukan pada database ?
 	if ($cek > 0) {
 
 		$data = mysqli_fetch_assoc($login);
 
-		if ($data['role'] == "stock") {
+		if ($data['level'] == "admin") {
 			// buat session login dan username
 			$_SESSION['user'] = $data['nickname'];
 			$_SESSION['user_login'] = $data['username'];
-			$_SESSION['id'] = $data['id'];
-			$_SESSION['role'] = "stock";
+			$_SESSION['id'] = $data['id_user'];
+			$_SESSION['level'] = "admin";
 			header("location:stock");
 		} else {
 			header("location:index.php?pesan=gagal");
