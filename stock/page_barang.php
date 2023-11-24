@@ -14,7 +14,7 @@
         $satuan = $_POST['satuan'];
         $lokasi = $_POST['lokasi'];
 
-        $updatedata = mysqli_query($conn,"UPDATE tb_barang SET nama='$nama', jenis='$jenis', merk='$merk', ukuran='$ukuran', satuan='$satuan', lokasi='$lokasi' WHERE id_produk='$id_produk'");
+        $updatedata = mysqli_query($conn,"UPDATE tb_barang SET nama='$nama', jenis='$jenis', merk='$merk', ukuran='$ukuran', satuan='$satuan', lokasi='$lokasi' WHERE id_barang='$id_barang'");
         
         //cek apakah berhasil
         if ($updatedata){
@@ -22,18 +22,18 @@
             echo " <div class='alert alert-success'>
                 <strong>Success!</strong> Redirecting you back in 1 seconds.
                 </div>
-            <meta http-equiv='refresh' content='1; url= stock.php'/>  ";
+            <meta http-equiv='refresh' content='1; url= page_barang.php'/>  ";
             } else { echo "<div class='alert alert-warning'>
                 <strong>Failed!</strong> Redirecting you back in 1 seconds.
                 </div>
-                <meta http-equiv='refresh' content='1; url= stock.php'/> ";
+                <meta http-equiv='refresh' content='1; url= page_barang.php'/> ";
             }
     };
 
     if(isset($_POST['hapus'])){
         $id_barang = $_POST['id_barang'];
 
-        $delete = mysqli_query($conn,"DELETE FROM barang where id_barang='$id_barang'");
+        $delete = mysqli_query($conn,"DELETE FROM tb_barang where id_barang='$id_barang'");
         //hapus juga semua data barang ini di tabel keluar-masuk
         $deltabelkeluar = mysqli_query($conn,"DELETE FROM sbrg_keluar WHERE id='$id_barang'");
         $deltabelmasuk = mysqli_query($conn,"DELETE FROM sbrg_masuk WHERE id='$id_barang'");
@@ -44,11 +44,11 @@
             echo " <div class='alert alert-success'>
                 <strong>Success!</strong> Redirecting you back in 1 seconds.
                 </div>
-            <meta http-equiv='refresh' content='1; url= stock.php'/>  ";
+            <meta http-equiv='refresh' content='1; url= page_barang.php'/>  ";
             } else { echo "<div class='alert alert-warning'>
                 <strong>Failed!</strong> Redirecting you back in 1 seconds.
                 </div>
-                <meta http-equiv='refresh' content='1; url= stock.php'/> ";
+                <meta http-equiv='refresh' content='1; url= page_barang.php'/> ";
             }
     };
 	?>
@@ -224,7 +224,7 @@
                             <div class="card-body">
                                 <div class="d-sm-flex justify-content-between align-items-center">
 									<h2>Daftar Barang</h2>
-									<button style="margin-bottom:20px" data-toggle="modal" data-target="#myModal" class="btn btn-info col-md-2"><span class="glyphicon glyphicon-plus"></span>Tambah Produk</button>
+									<button style="margin-bottom:20px" data-toggle="modal" data-target="#myModal" class="btn btn-info col-md-2"><span class="glyphicon glyphicon-plus"></span>Tambah Barang</button>
                                 </div>
                                     <div class="data-tables datatable-dark">
 										<table id="dataTable3" class="display" style="width:100%"><thead class="thead-dark">
@@ -294,7 +294,7 @@
 
                                                             <label for="lokasi">Lokasi</label>
                                                             <input type="text" id="lokasi" name="lokasi" class="form-control" value="<?php echo $p['lokasi'] ?>">
-                                                            <input type="hidden" name="id_barang" value="<?=$idp;?>">
+                                                            <input type="hidden" name="id_barang" value="<?=$idb;?>">
                                                             </div>
                                                             
                                                             <!-- Modal footer -->
@@ -310,20 +310,20 @@
 
 
                                                     <!-- The Modal -->
-                                                    <div class="modal fade" id="del<?=$idp;?>">
+                                                    <div class="modal fade" id="del<?=$idb;?>">
                                                         <div class="modal-dialog">
                                                         <div class="modal-content">
                                                         <form method="post">
                                                             <!-- Modal Header -->
                                                             <div class="modal-header">
-                                                            <h4 class="modal-title">Hapus Produk <?php echo $p['nama']?> - <?php echo $p['jenis']?> - <?php echo $p['ukuran']?></h4>
+                                                            <h4 class="modal-title">Hapus Barang <?php echo $p['nama']?> - <?php echo $p['jenis']?> - <?php echo $p['ukuran']?></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                             </div>
                                                             
                                                             <!-- Modal body -->
                                                             <div class="modal-body">
-                                                            Apakah Anda yakin ingin menghapus produk ini dari daftar stock?
-                                                            <input type="hidden" name="id_produk" value="<?=$idp;?>">
+                                                            Apakah Anda yakin ingin menghapus barang ini dari daftar persediaan barang?
+                                                            <input type="hidden" name="id_barang" value="<?=$idb;?>">
                                                             </div>
                                                             
                                                             <!-- Modal footer -->
@@ -375,15 +375,15 @@
 							<form action="konfirmasi_tambah_barang.php" method="POST">
 								<div class="form-group">
 									<label>Nama</label>
-									<input name="nama" type="text" class="form-control" placeholder="Nama Produk" required>
+									<input name="nama" type="text" class="form-control" placeholder="Nama Barang" required>
 								</div>
 								<div class="form-group">
 									<label>Jenis</label>
-									<input name="jenis" type="text" class="form-control" placeholder="Jenis / Kategori Produk">
+									<input name="jenis" type="text" class="form-control" placeholder="Jenis / Kategori Barang">
 								</div>
 								<div class="form-group">
 									<label>Merk</label>
-									<input name="merk" type="text" class="form-control" placeholder="Merk Produk">
+									<input name="merk" type="text" class="form-control" placeholder="Merk Barang">
 								</div>
 								<div class="form-group">
 									<label>Ukuran</label>
@@ -406,7 +406,7 @@
 								</div>
 								<div class="form-group">
 									<label>Lokasi</label>
-									<input name="lokasi" type="text" class="form-control" placeholder="Lokasi Produk">
+									<input name="lokasi" type="text" class="form-control" placeholder="Lokasi Barang">
 								</div>
 
 							</div>
@@ -423,11 +423,11 @@
 		$(document).ready(function() {
 		$('input').on('keydown', function(event) {
 			if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
-			    var $t = $(this);
-			    event.preventDefault();
-			    var char = String.fromCharCode(event.keyCode);
-			    $t.val(char + $t.val().slice(this.selectionEnd));
-			    this.setSelectionRange(1,1);
+                var $t = $(this);
+                event.preventDefault();
+                var char = String.fromCharCode(event.keyCode);
+                $t.val(char + $t.val().slice(this.selectionEnd));
+                this.setSelectionRange(1,1);
 			}
 		});
 	});

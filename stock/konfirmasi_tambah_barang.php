@@ -14,11 +14,11 @@
   echo " <div class='alert alert-success'>
       <strong>Success!</strong> Redirecting you back in 1 seconds.
     </div>
-  <meta http-equiv='refresh' content='1; url= stock.php'/>  ";
+  <meta http-equiv='refresh' content='1; url= page_barang.php'/>  ";
   } else { echo "<div class='alert alert-warning'>
       <strong>Failed!</strong> Redirecting you back in 1 seconds.
     </div>
-  <meta http-equiv='refresh' content='1; url= stock.php'/> ";
+  <meta http-equiv='refresh' content='1; url= page_barang.php'/> ";
   }
 ?>
   <html>
