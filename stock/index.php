@@ -60,20 +60,20 @@
                 <div class="menu-inner">
                     <nav>
                         <ul class="metismenu" id="menu">
-							<li class="active"><a href="index.php"><span>Notes</span></a></li>
+							<li class="active"><a href="index.php"><span>Dashboard</span></a></li>
                             <li>
-                                <a href="stock.php"><i class="ti-dashboard"></i><span>Stock Barang</span></a>
+                                <a href="stock.php"><i class="ti-dashboard"></i><span>Persediaan Produk</span></a>
                             </li>
 							<li>
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout"></i><span>Transaksi Data
                                     </span></a>
                                 <ul class="collapse">
-                                    <li><a href="masuk.php">Barang Masuk / Kembali</a></li>
-                                    <li><a href="keluar.php">Barang Keluar</a></li>
+                                    <li><a href="produk_masuk.php">Produk Masuk</a></li>
+                                    <li><a href="produk_keluar.php">Produk Keluar</a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="logout.php"><span>Logout</span></a>
+                                <a href="logout.php"><span>Keluar</span></a>
                                 
                             </li>
                             
@@ -251,26 +251,24 @@
                                 </div>
                                 <div class="market-status-table mt-4">
                                     <div class="table-responsive">
-										 <table class="table table-bordered table-hover"><thead class="thead-dark">  
+										<table class="table table-bordered table-hover"><thead class="thead-dark">  
 										<tr>
-										 <th><center> No </center></th>
-										 <th><center> Catatan </center></th>
-										 <th><center> Ditulis oleh </center></th>
-										 <th><center> Action </center></th>
-
-
+										    <th><center> No </center></th>
+										    <th><center> Catatan </center></th>
+										    <th><center> Ditulis oleh </center></th>
+										    <th><center> Action </center></th>
 										</tr></thead>
-										 <form method ='POST' action = 'notes.php'>
-										 <tr class="table-active">
+										<form method ='POST' action = 'notes.php'>
+										<tr class="table-active">
 											<td><center><input type = 'hidden'/></center> </td>
 											<td><center> <input type = 'text' class='form-control' name = 'konten' required /></center> </td>
-											<td><center>Saya, <strong><?=$_SESSION['user'];?></strong> <span class="badge badge-secondary"><?=$_SESSION['role'];?></span></center> </td>
+											<td><center>Saya, <strong><?=$_SESSION['user'];?></strong> <span class="badge badge-secondary"><?=$_SESSION['level'];?></span></center> </td>
 											<td><center><input type = 'submit' name = 'submit'  class='btn btn-primary btn-sm' value = 'Add Note'/></center></td>
 											<tr>
-										 </form>
+										</form>
 										<?php  
 										// Perintah untuk menampilkan data
-										$queri="Select * From notes where status='aktif' Order by id DESC" ;  //menampikan SEMUA data dari tabel
+										$queri="SELECT * FROM notes WHERE status='aktif' ORDER BY id DESC" ;  //menampikan SEMUA data dari tabel
 
 										$hasil=MySQLi_query ($conn,$queri);    //fungsi untuk SQL
 
@@ -280,16 +278,16 @@
 										// perintah untuk membaca dan mengambil data dalam bentuk array
 										while ($data = mysqli_fetch_array ($hasil)){
 										$id = $data['id'];
-										 echo "  <form method ='POST' action = 'done.php'>
-										  <tr>
-										  <td><center>".$i."</center></td>
-										  <td><strong><center>".$data['contents']."</center></strong></td>
-										  <td><strong><center>".$data['admin']."</center></strong></td>
-										  <td><center><input type = 'hidden' name = 'id' value = '".$data['id']."'> <input type='submit' name = 'submit'  class='btn btn-danger btn-sm' value = 'Delete' formaction='del.php' /></center></td>
-										  </form></td>
-										  </tr> </form>
-										  ";
-										 $i++; 
+										echo "  <form method ='POST' action = 'done.php'>
+										    <tr>
+										    <td><center>".$i."</center></td>
+										    <td><strong><center>".$data['contents']."</center></strong></td>
+										    <td><strong><center>".$data['admin']."</center></strong></td>
+										    <td><center><input type = 'hidden' name = 'id' value = '".$data['id']."'> <input type='submit' name = 'submit'  class='btn btn-danger btn-sm' value = 'Delete' formaction='del.php' /></center></td>
+										    </form></td>
+										    </tr> </form>
+										    ";
+										$i++; 
 										}
 										?>
 										</table>
@@ -299,7 +297,6 @@
                         </div>
                     </div>
                 </div>
-              
                 
                 <!-- row area start-->
             </div>
