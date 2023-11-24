@@ -6,7 +6,7 @@
     include 'cek.php';
 
     if(isset($_POST['update'])){
-        $idx = $_POST['idbrg'];
+        $id_produk = $_POST['id_produk'];
         $nama = $_POST['nama'];
         $jenis = $_POST['jenis'];
         $merk = $_POST['merk'];
@@ -14,7 +14,7 @@
         $satuan = $_POST['satuan'];
         $lokasi = $_POST['lokasi'];
 
-        $updatedata = mysqli_query($conn,"UPDATE barang SET nama='$nama', jenis='$jenis', merk='$merk', ukuran='$ukuran', satuan='$satuan', lokasi='$lokasi' WHERE idx='$idx'");
+        $updatedata = mysqli_query($conn,"UPDATE produk SET nama='$nama', jenis='$jenis', merk='$merk', ukuran='$ukuran', satuan='$satuan', lokasi='$lokasi' WHERE id_produk='$id_produk'");
         
         //cek apakah berhasil
         if ($updatedata){
@@ -31,33 +31,31 @@
     };
 
     if(isset($_POST['hapus'])){
-        $idx = $_POST['idbrg'];
+        $id_produk = $_POST['id_produk'];
 
-        $delete = mysqli_query($conn,"DELETE FROM barang where idx='$idx'");
-        //hapus juga semua data barang ini di tabel keluar-masuk
-        $deltabelkeluar = mysqli_query($conn,"DELETE FROM sbrg_keluar WHERE id='$idx'");
-        $deltabelmasuk = mysqli_query($conn,"DELETE FROM sbrg_masuk WHERE id='$idx'");
+        $delete = mysqli_query($conn,"DELETE FROM produk where id_produk='$id_produk'");
+        //hapus juga semua data produk ini di tabel keluar-masuk
+        $deltabelkeluar = mysqli_query($conn,"DELETE FROM sbrg_keluar WHERE id='$id_produk'");
+        $deltabelmasuk = mysqli_query($conn,"DELETE FROM sbrg_masuk WHERE id='$id_produk'");
         
         //cek apakah berhasil
         if ($delete && $deltabelkeluar && $deltabelmasuk){
 
             echo " <div class='alert alert-success'>
                 <strong>Success!</strong> Redirecting you back in 1 seconds.
-              </div>
+                </div>
             <meta http-equiv='refresh' content='1; url= stock.php'/>  ";
             } else { echo "<div class='alert alert-warning'>
                 <strong>Failed!</strong> Redirecting you back in 1 seconds.
-              </div>
-             <meta http-equiv='refresh' content='1; url= stock.php'/> ";
+                </div>
+                <meta http-equiv='refresh' content='1; url= stock.php'/> ";
             }
     };
 	?>
 
 <head>
     <meta charset="utf-8">
-	<link rel="icon" 
-      type="image/png" 
-      href="../favicon.png">
+	<link rel="icon" type="image/png" href="../favicon.png">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Logistics</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -71,11 +69,13 @@
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144808195-1"></script>
 	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
+	    window.dataLayer = window.dataLayer || [];
+	    function gtag(){
+            dataLayer.push(arguments);
+        }
+	    gtag('js', new Date());
 
-	  gtag('config', 'UA-144808195-1');
+	    gtag('config', 'UA-144808195-1');
 	</script>
     <!-- amchart css -->
     <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
@@ -116,20 +116,20 @@
                 <div class="menu-inner">
                     <nav>
                         <ul class="metismenu" id="menu">
-							<li><a href="index.php"><span>Notes</span></a></li>
+							<li><a href="index.php"><span>Dashboard</span></a></li>
                             <li class="active">
-                                <a href="stock.php"><i class="ti-dashboard"></i><span>Stock Barang</span></a>
+                                <a href="stock.php"><i class="ti-dashboard"></i><span>Persediaan Produk</span></a>
                             </li>
 							<li>
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout"></i><span>Transaksi Data
                                     </span></a>
                                 <ul class="collapse">
-                                    <li><a href="masuk.php">Barang Masuk / Kembali</a></li>
-                                    <li><a href="keluar.php">Barang Keluar</a></li>
+                                    <li><a href="masuk.php">Data Masuk</a></li>
+                                    <li><a href="keluar.php">Data Keluar</a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="logout.php"><span>Logout</span></a>
+                                <a href="logout.php"><span>Keluar</span></a>
                                 
                             </li>
                             
@@ -184,7 +184,7 @@
             <!-- header area end -->
 			<?php 
 			
-				$periksa_bahan=mysqli_query($conn,"SELECT * FROM barang WHERE stock <1");
+				$periksa_bahan=mysqli_query($conn,"SELECT * FROM produk WHERE stock <1");
 				while($p=mysqli_fetch_array($periksa_bahan)){	
 					if($p['stock']<=1){	
 						?>	
@@ -207,7 +207,7 @@
                         <div class="breadcrumbs-area clearfix">
                             <ul class="breadcrumbs pull-left">
                                 <li><a href="index.php">Home</a></li>
-                                <li><span>Daftar Barang</span></li>
+                                <li><span>Daftar Produk</span></li>
                             </ul>
                         </div>
                     </div>
@@ -217,21 +217,20 @@
             </div>
             <!-- page title area end -->
             <div class="main-content-inner">
-               
                 <!-- market value area start -->
                 <div class="row mt-5 mb-5">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-sm-flex justify-content-between align-items-center">
-									<h2>Daftar Barang</h2>
-									<button style="margin-bottom:20px" data-toggle="modal" data-target="#myModal" class="btn btn-info col-md-2"><span class="glyphicon glyphicon-plus"></span>Tambah Barang</button>
+									<h2>Daftar Produk</h2>
+									<button style="margin-bottom:20px" data-toggle="modal" data-target="#myModal" class="btn btn-info col-md-2"><span class="glyphicon glyphicon-plus"></span>Tambah Produk</button>
                                 </div>
                                     <div class="data-tables datatable-dark">
-										 <table id="dataTable3" class="display" style="width:100%"><thead class="thead-dark">
+										<table id="dataTable3" class="display" style="width:100%"><thead class="thead-dark">
 											<tr>
 												<th>No</th>
-												<th>Nama Barang</th>
+												<th>Nama Produk</th>
 												<th>Jenis</th>
 												<th>Merk</th>
 												<th>Ukuran</th>
@@ -242,10 +241,10 @@
 												<th>Opsi</th>
 											</tr></thead><tbody>
 											<?php 
-											$brgs=mysqli_query($conn,"SELECT * FROM barang ORDER BY nama ASC");
-											$no=1;
+											$brgs = mysqli_query($conn,"SELECT * FROM produk ORDER BY nama ASC");
+											$no = 1;
 											while($p=mysqli_fetch_array($brgs)){
-                                                $idb = $p['idx'];
+                                                $idp = $p['id_produk'];
 												?>
 												
 												<tr>
@@ -257,18 +256,18 @@
 													<td><?php echo $p['stock'] ?></td>
 													<td><?php echo $p['satuan'] ?></td>
 													<td><?php echo $p['lokasi'] ?></td>
-                                                    <td><button data-toggle="modal" data-target="#edit<?=$idb;?>" class="btn btn-warning">Edit</button> <button data-toggle="modal" data-target="#del<?=$idb;?>" class="btn btn-danger">Del</button></td>
+                                                    <td><button data-toggle="modal" data-target="#edit<?=$idp;?>" class="btn btn-warning">Edit</button> <button data-toggle="modal" data-target="#del<?=$idp;?>" class="btn btn-danger">Del</button></td>
 												</tr>
 
 
                                                 <!-- The Modal -->
-                                                    <div class="modal fade" id="edit<?=$idb;?>">
+                                                    <div class="modal fade" id="edit<?=$idp;?>">
                                                         <div class="modal-dialog">
                                                         <div class="modal-content">
                                                         <form method="post">
                                                             <!-- Modal Header -->
                                                             <div class="modal-header">
-                                                            <h4 class="modal-title">Edit Barang <?php echo $p['nama']?> - <?php echo $p['jenis']?> - <?php echo $p['ukuran']?></h4>
+                                                            <h4 class="modal-title">Edit Produk <?php echo $p['nama']?> - <?php echo $p['jenis']?> - <?php echo $p['ukuran']?></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                             </div>
                                                             
@@ -295,9 +294,7 @@
 
                                                             <label for="lokasi">Lokasi</label>
                                                             <input type="text" id="lokasi" name="lokasi" class="form-control" value="<?php echo $p['lokasi'] ?>">
-                                                            <input type="hidden" name="idbrg" value="<?=$idb;?>">
-
-                                                            
+                                                            <input type="hidden" name="id_produk" value="<?=$idp;?>">
                                                             </div>
                                                             
                                                             <!-- Modal footer -->
@@ -313,20 +310,20 @@
 
 
                                                     <!-- The Modal -->
-                                                    <div class="modal fade" id="del<?=$idb;?>">
+                                                    <div class="modal fade" id="del<?=$idp;?>">
                                                         <div class="modal-dialog">
                                                         <div class="modal-content">
                                                         <form method="post">
                                                             <!-- Modal Header -->
                                                             <div class="modal-header">
-                                                            <h4 class="modal-title">Hapus Barang <?php echo $p['nama']?> - <?php echo $p['jenis']?> - <?php echo $p['ukuran']?></h4>
+                                                            <h4 class="modal-title">Hapus Produk <?php echo $p['nama']?> - <?php echo $p['jenis']?> - <?php echo $p['ukuran']?></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                             </div>
                                                             
                                                             <!-- Modal body -->
                                                             <div class="modal-body">
-                                                            Apakah Anda yakin ingin menghapus barang ini dari daftar stock?
-                                                            <input type="hidden" name="idbrg" value="<?=$idb;?>">
+                                                            Apakah Anda yakin ingin menghapus produk ini dari daftar stock?
+                                                            <input type="hidden" name="id_produk" value="<?=$idp;?>">
                                                             </div>
                                                             
                                                             <!-- Modal footer -->
@@ -352,7 +349,6 @@
                         </div>
                     </div>
                 </div>
-              
                 
                 <!-- row area start-->
             </div>
@@ -376,18 +372,18 @@
 							<h4 class="modal-title">Masukkan stok manual</h4>
 						</div>
 						<div class="modal-body">
-							<form action="tmb_brg_act.php" method="post">
+							<form action="konfirmasi_tambah_produk.php" method="POST">
 								<div class="form-group">
 									<label>Nama</label>
-									<input name="nama" type="text" class="form-control" placeholder="Nama Barang" required>
+									<input name="nama" type="text" class="form-control" placeholder="Nama Produk" required>
 								</div>
 								<div class="form-group">
 									<label>Jenis</label>
-									<input name="jenis" type="text" class="form-control" placeholder="Jenis / Kategori Barang">
+									<input name="jenis" type="text" class="form-control" placeholder="Jenis / Kategori Produk">
 								</div>
 								<div class="form-group">
 									<label>Merk</label>
-									<input name="merk" type="text" class="form-control" placeholder="Merk Barang">
+									<input name="merk" type="text" class="form-control" placeholder="Merk Produk">
 								</div>
 								<div class="form-group">
 									<label>Ukuran</label>
@@ -410,7 +406,7 @@
 								</div>
 								<div class="form-group">
 									<label>Lokasi</label>
-									<input name="lokasi" type="text" class="form-control" placeholder="Lokasi barang">
+									<input name="lokasi" type="text" class="form-control" placeholder="Lokasi Produk">
 								</div>
 
 							</div>
@@ -427,11 +423,11 @@
 		$(document).ready(function() {
 		$('input').on('keydown', function(event) {
 			if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
-			   var $t = $(this);
-			   event.preventDefault();
-			   var char = String.fromCharCode(event.keyCode);
-			   $t.val(char + $t.val().slice(this.selectionEnd));
-			   this.setSelectionRange(1,1);
+			    var $t = $(this);
+			    event.preventDefault();
+			    var char = String.fromCharCode(event.keyCode);
+			    $t.val(char + $t.val().slice(this.selectionEnd));
+			    this.setSelectionRange(1,1);
 			}
 		});
 	});
@@ -456,7 +452,7 @@
     <script src="assets/js/jquery.slimscroll.min.js"></script>
     <script src="assets/js/jquery.slicknav.min.js"></script>
 		<!-- Start datatable js -->
-	 <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
     <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
