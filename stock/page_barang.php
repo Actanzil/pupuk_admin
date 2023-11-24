@@ -231,13 +231,12 @@
 											<tr>
 												<th>No</th>
 												<th>Nama Barang</th>
-												<th>Jenis</th>
 												<th>Merk</th>
+												<th>Jenis</th>
 												<th>Ukuran</th>
-												<th>Stock</th>
 												<th>Satuan</th>
 												<th>Lokasi</th>
-												
+												<th>Stock</th>
 												<th>Opsi</th>
 											</tr></thead><tbody>
 											<?php 
@@ -250,12 +249,12 @@
 												<tr>
 													<td><?php echo $no++ ?></td>
 													<td><?php echo $p['nama'] ?></td>
-													<td><?php echo $p['jenis'] ?></td>
 													<td><?php echo $p['merk'] ?></td>
+													<td><?php echo $p['jenis'] ?></td>
 													<td><?php echo $p['ukuran'] ?></td>
-													<td><?php echo $p['stock'] ?></td>
 													<td><?php echo $p['satuan'] ?></td>
 													<td><?php echo $p['lokasi'] ?></td>
+													<td><?php echo $p['stock'] ?></td>
                                                     <td><button data-toggle="modal" data-target="#edit<?=$idb;?>" class="btn btn-warning">Edit</button> <button data-toggle="modal" data-target="#del<?=$idb;?>" class="btn btn-danger">Del</button></td>
 												</tr>
 
@@ -274,33 +273,43 @@
                                                             <!-- Modal body -->
                                                             <div class="modal-body">
                                                             
-                                                            <label for="nama">Nama Barang</label>
-                                                            <input type="text" id="nama" name="nama" class="form-control" value="<?php echo $p['nama'] ?>">
+                                                                <label for="nama">Nama Barang</label>
+                                                                <input type="text" id="nama" name="nama" class="form-control" value="<?php echo $p['nama'] ?>">
 
-                                                            <label for="jenis">Jenis</label>
-                                                            <input type="text" id="jenis" name="jenis" class="form-control" value="<?php echo $p['jenis'] ?>">
+                                                                <label for="merk">Merk</label>
+                                                                <input type="text" id="merk" name="merk" class="form-control" value="<?php echo $p['merk'] ?>">
 
-                                                            <label for="merk">Merk</label>
-                                                            <input type="text" id="merk" name="merk" class="form-control" value="<?php echo $p['merk'] ?>">
+                                                                <label for="jenis">Jenis</label>
+                                                                <select class="custom-select form-control" id="jenis" name="jenis">
+                                                                    <option value="Organik" <?php if ($p['jenis']=="Organik") { ?> selected <?php } ?>>Organik</option>
+                                                                    <option value="Anorganik" <?php if ($p['jenis']=="Anorganik") { ?> selected <?php } ?>>Anorganik</option>
+                                                                </select>
+                                                                
+                                                                <label for="ukuran">Ukuran</label>
+                                                                <input type="text" id="ukuran" name="ukuran" class="form-control" value="<?php echo $p['ukuran'] ?>">
 
-                                                            <label for="ukuran">Ukuran</label>
-                                                            <input type="text" id="ukuran" name="ukuran" class="form-control" value="<?php echo $p['ukuran'] ?>">
-
-                                                            <label for="stock">Stock</label>
-                                                            <input type="text" id="stock" name="stock" class="form-control" value="<?php echo $p['stock'] ?>" disabled>
-
-                                                            <label for="satuan">Satuan</label>
-                                                            <input type="text" id="satuan" name="satuan" class="form-control" value="<?php echo $p['satuan'] ?>">
-
-                                                            <label for="lokasi">Lokasi</label>
-                                                            <input type="text" id="lokasi" name="lokasi" class="form-control" value="<?php echo $p['lokasi'] ?>">
-                                                            <input type="hidden" name="id_barang" value="<?=$idb;?>">
-                                                            </div>
-                                                            
-                                                            <!-- Modal footer -->
-                                                            <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-success" name="update">Save</button>
+                                                                <label for="satuan">Satuan</label>
+                                                                <select class="custom-select form-control" id="satuan" name="satuan">
+                                                                    <option value="Kilogram" <?php if ($p['satuan']=="Kilogram") { ?> selected <?php } ?>>Kilogram</option>
+                                                                    <option value="Kwintal" <?php if ($p['satuan']=="Kwintal") { ?> selected <?php } ?>>Kwintal</option>
+                                                                    <option value="Ton" <?php if ($p['satuan']=="Ton") { ?> selected <?php } ?>>Ton</option>
+                                                                </select>
+                                                                
+                                                                <label for="lokasi">Lokasi</label>
+                                                                <select class="custom-select form-control" id="lokasi" name="lokasi">
+                                                                    <option value="Gudang 1" <?php if ($p['lokasi']=="Gudang 1") { ?> selected <?php } ?>>Gudang 1</option>
+                                                                    <option value="Gudang 2" <?php if ($p['lokasi']=="Gudang 2") { ?> selected <?php } ?>>Gudang 2</option>
+                                                                </select>
+                                                                
+                                                                <label for="stock">Stock</label>
+                                                                <input type="text" id="stock" name="stock" class="form-control" value="<?php echo $p['stock'] ?>" disabled>
+                                                                <input type="hidden" name="id_barang" value="<?= $idb; ?>">
+                                                                </div>
+                                                                
+                                                                <!-- Modal footer -->
+                                                                <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-success" name="update">Save</button>
                                                             </div>
                                                             </form>
                                                         </div>
@@ -379,7 +388,11 @@
 								</div>
 								<div class="form-group">
 									<label>Jenis</label>
-									<input name="jenis" type="text" class="form-control" placeholder="Jenis / Kategori Barang">
+                                    <select name="jenis" class="custom-select form-control">
+                                        <option selected>Pilih Jenis</option>
+                                        <option value="Organik">Organik</option>
+                                        <option value="Anorganik">Anorganik</option>
+                                    </select>
 								</div>
 								<div class="form-group">
 									<label>Merk</label>
@@ -396,17 +409,19 @@
 								<div class="form-group">
 									<label>Satuan</label>
 									<select name="satuan" class="custom-select form-control">
-									<option selected>Pilih satuan</option>
-									<option value="Buah">Buah</option>
-									<option value="Unit">Unit</option>
-									<option value="Meter">Meter</option>
-									<option value="Milimeter">Centimeter</option>
-									<option value="Milimeter">Milimeter</option>
+									<option selected>Pilih Satuan</option>
+									<option value="Kilogram">Kilogram</option>
+									<option value="Kwintal">Kwintal</option>
+									<option value="Ton">Ton</option>
 									</select>
 								</div>
 								<div class="form-group">
 									<label>Lokasi</label>
-									<input name="lokasi" type="text" class="form-control" placeholder="Lokasi Barang">
+                                    <select name="lokasi" class="custom-select form-control">
+									<option selected>Pilih Lokasi</option>
+									<option value="Gudang 1">Gudang 1</option>
+									<option value="Gudang 2">Gudang 2</option>
+                                    </select>
 								</div>
 
 							</div>
