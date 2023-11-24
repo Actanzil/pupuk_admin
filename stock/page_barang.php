@@ -316,8 +316,6 @@
                                                         </div>
                                                     </div>
 
-
-
                                                     <!-- The Modal -->
                                                     <div class="modal fade" id="del<?=$idb;?>">
                                                         <div class="modal-dialog">
@@ -352,7 +350,7 @@
 										</tbody>
 										</table>
                                     </div>
-									<a href="exportstkbhn.php" target="_blank" class="btn btn-info">Export Data</a>
+									<a href="export_barang.php" target="_blank" class="btn btn-info">Export Data</a>
                                 </div>
                             </div>
                         </div>
