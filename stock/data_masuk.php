@@ -401,7 +401,7 @@ if (isset($_POST['hapus'])) {
                                             </tbody>
                                         </table>
                                     </div>
-                                    <a href="exportbrgmsk.php" target="_blank" class="btn btn-info">Export Data</a>
+                                    <a href="export_barang_masuk.php" target="_blank" class="btn btn-info">Export Data</a>
                                 </div>
                             </div>
                         </div>
