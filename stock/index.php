@@ -62,14 +62,14 @@
                         <ul class="metismenu" id="menu">
 							<li class="active"><a href="index.php"><span>Dashboard</span></a></li>
                             <li>
-                                <a href="stock.php"><i class="ti-dashboard"></i><span>Persediaan Produk</span></a>
+                                <a href="stock.php"><i class="ti-dashboard"></i><span>Persediaan Barang</span></a>
                             </li>
 							<li>
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout"></i><span>Transaksi Data
                                     </span></a>
                                 <ul class="collapse">
-                                    <li><a href="produk_masuk.php">Produk Masuk</a></li>
-                                    <li><a href="produk_keluar.php">Produk Keluar</a></li>
+                                    <li><a href="data_masuk.php">Data Masuk</a></li>
+                                    <li><a href="data_keluar.php">Data Keluar</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -128,7 +128,7 @@
             <!-- header area end -->
 			<?php 
 			
-				$periksa_bahan=mysqli_query($conn,"SELECT * FROM barang WHERE stock <1");
+				$periksa_bahan=mysqli_query($conn,"SELECT * FROM tb_barang WHERE stock <1");
 				while($p=mysqli_fetch_array($periksa_bahan)){	
 					if($p['stock']<=1){	
 						?>	
