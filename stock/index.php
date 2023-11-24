@@ -62,7 +62,7 @@
                         <ul class="metismenu" id="menu">
 							<li class="active"><a href="index.php"><span>Dashboard</span></a></li>
                             <li>
-                                <a href="stock.php"><i class="ti-dashboard"></i><span>Persediaan Barang</span></a>
+                                <a href="page_barang.php"><i class="ti-dashboard"></i><span>Persediaan Barang</span></a>
                             </li>
 							<li>
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout"></i><span>Transaksi Data
@@ -143,22 +143,6 @@
 					}
 				}
 				?>
-			
-            <!-- page title area start -->
-            <div class="page-title-area">
-                <div class="row align-items-center">
-                    <div class="col-sm-6">
-                        <div class="breadcrumbs-area clearfix">
-                            <ul class="breadcrumbs pull-left">
-                                <li><a href="index.php">Home</a></li>
-                                <li><span>Notes</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 clearfix">
-                    </div>
-                </div>
-            </div>
             <!-- page title area end -->
             <div class="main-content-inner">
                 <!-- sales report area start 
@@ -247,16 +231,16 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-sm-flex justify-content-between align-items-center">
-									<h2>Notes</h2>
+									<h2>Dashboard</h2>
                                 </div>
                                 <div class="market-status-table mt-4">
                                     <div class="table-responsive">
 										<table class="table table-bordered table-hover"><thead class="thead-dark">  
 										<tr>
-										    <th><center> No </center></th>
-										    <th><center> Catatan </center></th>
-										    <th><center> Ditulis oleh </center></th>
-										    <th><center> Action </center></th>
+                                            <th><center> No </center></th>
+                                            <th><center> Catatan </center></th>
+                                            <th><center> Ditulis oleh </center></th>
+                                            <th><center> Action </center></th>
 										</tr></thead>
 										<form method ='POST' action = 'notes.php'>
 										<tr class="table-active">

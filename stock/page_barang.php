@@ -6,7 +6,7 @@
     include 'cek.php';
 
     if(isset($_POST['update'])){
-        $id_produk = $_POST['id_produk'];
+        $id_barang = $_POST['id_barang'];
         $nama = $_POST['nama'];
         $jenis = $_POST['jenis'];
         $merk = $_POST['merk'];
@@ -14,7 +14,7 @@
         $satuan = $_POST['satuan'];
         $lokasi = $_POST['lokasi'];
 
-        $updatedata = mysqli_query($conn,"UPDATE produk SET nama='$nama', jenis='$jenis', merk='$merk', ukuran='$ukuran', satuan='$satuan', lokasi='$lokasi' WHERE id_produk='$id_produk'");
+        $updatedata = mysqli_query($conn,"UPDATE tb_barang SET nama='$nama', jenis='$jenis', merk='$merk', ukuran='$ukuran', satuan='$satuan', lokasi='$lokasi' WHERE id_produk='$id_produk'");
         
         //cek apakah berhasil
         if ($updatedata){
@@ -31,12 +31,12 @@
     };
 
     if(isset($_POST['hapus'])){
-        $id_produk = $_POST['id_produk'];
+        $id_barang = $_POST['id_barang'];
 
-        $delete = mysqli_query($conn,"DELETE FROM produk where id_produk='$id_produk'");
-        //hapus juga semua data produk ini di tabel keluar-masuk
-        $deltabelkeluar = mysqli_query($conn,"DELETE FROM sbrg_keluar WHERE id='$id_produk'");
-        $deltabelmasuk = mysqli_query($conn,"DELETE FROM sbrg_masuk WHERE id='$id_produk'");
+        $delete = mysqli_query($conn,"DELETE FROM barang where id_barang='$id_barang'");
+        //hapus juga semua data barang ini di tabel keluar-masuk
+        $deltabelkeluar = mysqli_query($conn,"DELETE FROM sbrg_keluar WHERE id='$id_barang'");
+        $deltabelmasuk = mysqli_query($conn,"DELETE FROM sbrg_masuk WHERE id='$id_barang'");
         
         //cek apakah berhasil
         if ($delete && $deltabelkeluar && $deltabelmasuk){
@@ -118,14 +118,14 @@
                         <ul class="metismenu" id="menu">
 							<li><a href="index.php"><span>Dashboard</span></a></li>
                             <li class="active">
-                                <a href="stock.php"><i class="ti-dashboard"></i><span>Persediaan Produk</span></a>
+                                <a href="page_barang.php"><i class="ti-dashboard"></i><span>Persediaan Barang</span></a>
                             </li>
 							<li>
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout"></i><span>Transaksi Data
                                     </span></a>
                                 <ul class="collapse">
-                                    <li><a href="masuk.php">Data Masuk</a></li>
-                                    <li><a href="keluar.php">Data Keluar</a></li>
+                                    <li><a href="data_masuk.php">Data Masuk</a></li>
+                                    <li><a href="data_keluar.php">Data Keluar</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -184,7 +184,7 @@
             <!-- header area end -->
 			<?php 
 			
-				$periksa_bahan=mysqli_query($conn,"SELECT * FROM produk WHERE stock <1");
+				$periksa_bahan=mysqli_query($conn,"SELECT * FROM tb_barang WHERE stock <1");
 				while($p=mysqli_fetch_array($periksa_bahan)){	
 					if($p['stock']<=1){	
 						?>	
@@ -207,7 +207,7 @@
                         <div class="breadcrumbs-area clearfix">
                             <ul class="breadcrumbs pull-left">
                                 <li><a href="index.php">Home</a></li>
-                                <li><span>Daftar Produk</span></li>
+                                <li><span>Daftar Barang</span></li>
                             </ul>
                         </div>
                     </div>
@@ -223,14 +223,14 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-sm-flex justify-content-between align-items-center">
-									<h2>Daftar Produk</h2>
+									<h2>Daftar Barang</h2>
 									<button style="margin-bottom:20px" data-toggle="modal" data-target="#myModal" class="btn btn-info col-md-2"><span class="glyphicon glyphicon-plus"></span>Tambah Produk</button>
                                 </div>
                                     <div class="data-tables datatable-dark">
 										<table id="dataTable3" class="display" style="width:100%"><thead class="thead-dark">
 											<tr>
 												<th>No</th>
-												<th>Nama Produk</th>
+												<th>Nama Barang</th>
 												<th>Jenis</th>
 												<th>Merk</th>
 												<th>Ukuran</th>
@@ -241,10 +241,10 @@
 												<th>Opsi</th>
 											</tr></thead><tbody>
 											<?php 
-											$brgs = mysqli_query($conn,"SELECT * FROM produk ORDER BY nama ASC");
+											$brgs = mysqli_query($conn,"SELECT * FROM tb_barang ORDER BY nama ASC");
 											$no = 1;
 											while($p=mysqli_fetch_array($brgs)){
-                                                $idp = $p['id_produk'];
+                                                $idb = $p['id_barang'];
 												?>
 												
 												<tr>
@@ -256,25 +256,25 @@
 													<td><?php echo $p['stock'] ?></td>
 													<td><?php echo $p['satuan'] ?></td>
 													<td><?php echo $p['lokasi'] ?></td>
-                                                    <td><button data-toggle="modal" data-target="#edit<?=$idp;?>" class="btn btn-warning">Edit</button> <button data-toggle="modal" data-target="#del<?=$idp;?>" class="btn btn-danger">Del</button></td>
+                                                    <td><button data-toggle="modal" data-target="#edit<?=$idb;?>" class="btn btn-warning">Edit</button> <button data-toggle="modal" data-target="#del<?=$idb;?>" class="btn btn-danger">Del</button></td>
 												</tr>
 
 
                                                 <!-- The Modal -->
-                                                    <div class="modal fade" id="edit<?=$idp;?>">
+                                                    <div class="modal fade" id="edit<?=$idb;?>">
                                                         <div class="modal-dialog">
                                                         <div class="modal-content">
                                                         <form method="post">
                                                             <!-- Modal Header -->
                                                             <div class="modal-header">
-                                                            <h4 class="modal-title">Edit Produk <?php echo $p['nama']?> - <?php echo $p['jenis']?> - <?php echo $p['ukuran']?></h4>
+                                                            <h4 class="modal-title">Edit Barang <?php echo $p['nama']?> - <?php echo $p['jenis']?> - <?php echo $p['ukuran']?></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                             </div>
                                                             
                                                             <!-- Modal body -->
                                                             <div class="modal-body">
                                                             
-                                                            <label for="nama">Nama</label>
+                                                            <label for="nama">Nama Barang</label>
                                                             <input type="text" id="nama" name="nama" class="form-control" value="<?php echo $p['nama'] ?>">
 
                                                             <label for="jenis">Jenis</label>
@@ -294,7 +294,7 @@
 
                                                             <label for="lokasi">Lokasi</label>
                                                             <input type="text" id="lokasi" name="lokasi" class="form-control" value="<?php echo $p['lokasi'] ?>">
-                                                            <input type="hidden" name="id_produk" value="<?=$idp;?>">
+                                                            <input type="hidden" name="id_barang" value="<?=$idp;?>">
                                                             </div>
                                                             
                                                             <!-- Modal footer -->
