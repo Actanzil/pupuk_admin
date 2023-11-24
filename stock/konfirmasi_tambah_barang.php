@@ -8,7 +8,7 @@
   $lokasi=$_POST['lokasi'];
   $stock=$_POST['stock'];
       
-  $query = mysqli_query($conn,"INSERT INTO produk VALUES('','$nama','$jenis','$merk','$ukuran','$satuan','$lokasi','$stock')");
+  $query = mysqli_query($conn,"INSERT INTO tb_barang VALUES('','$nama','$jenis','$merk','$ukuran','$satuan','$lokasi','$stock')");
   if ($query){
 
   echo " <div class='alert alert-success'>
@@ -23,7 +23,7 @@
 ?>
   <html>
 <head>
-  <title>Tambah Produk</title>
+  <title>Tambah Barang</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">

@@ -372,7 +372,7 @@
 							<h4 class="modal-title">Masukkan stok manual</h4>
 						</div>
 						<div class="modal-body">
-							<form action="konfirmasi_tambah_produk.php" method="POST">
+							<form action="konfirmasi_tambah_barang.php" method="POST">
 								<div class="form-group">
 									<label>Nama</label>
 									<input name="nama" type="text" class="form-control" placeholder="Nama Produk" required>
