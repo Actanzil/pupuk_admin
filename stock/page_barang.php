@@ -35,8 +35,8 @@
 
         $delete = mysqli_query($conn,"DELETE FROM tb_barang where id_barang='$id_barang'");
         //hapus juga semua data barang ini di tabel keluar-masuk
-        $deltabelkeluar = mysqli_query($conn,"DELETE FROM sbrg_keluar WHERE id='$id_barang'");
-        $deltabelmasuk = mysqli_query($conn,"DELETE FROM sbrg_masuk WHERE id='$id_barang'");
+        $deltabelkeluar = mysqli_query($conn,"DELETE FROM tb_barang_keluar WHERE id_barang = '$id_barang'");
+        $deltabelmasuk = mysqli_query($conn,"DELETE FROM tb_barang_masuk WHERE id_barang = '$id_barang'");
         
         //cek apakah berhasil
         if ($delete && $deltabelkeluar && $deltabelmasuk){
