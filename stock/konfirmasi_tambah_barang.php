@@ -8,7 +8,7 @@
   $lokasi=$_POST['lokasi'];
   $stock=$_POST['stock'];
       
-  $query = mysqli_query($conn,"INSERT INTO tb_barang VALUES('','$nama','$jenis','$merk','$ukuran','$satuan','$lokasi','$stock')");
+  $query = mysqli_query($conn,"INSERT INTO tb_barang (nama, jenis, merk, ukuran, satuan, lokasi, stock)VALUES('$nama','$jenis','$merk','$ukuran','$satuan','$lokasi','$stock')");
   if ($query){
 
   echo " <div class='alert alert-success'>

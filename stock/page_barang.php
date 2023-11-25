@@ -255,97 +255,97 @@
 													<td><?php echo $p['satuan'] ?></td>
 													<td><?php echo $p['lokasi'] ?></td>
 													<td><?php echo $p['stock'] ?></td>
-                                                    <td><button data-toggle="modal" data-target="#edit<?=$idb;?>" class="btn btn-warning">Edit</button> <button data-toggle="modal" data-target="#del<?=$idb;?>" class="btn btn-danger">Del</button></td>
+                                                    <td><button data-toggle="modal" data-target="#edit<?=$idb;?>" class="btn btn-warning">Edit</button> <button data-toggle="modal" data-target="#del<?= $idb; ?>" class="btn btn-danger">Del</button></td>
 												</tr>
 
 
                                                 <!-- The Modal -->
                                                     <div class="modal fade" id="edit<?=$idb;?>">
                                                         <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                        <form method="post">
-                                                            <!-- Modal Header -->
-                                                            <div class="modal-header">
-                                                            <h4 class="modal-title">Edit Barang <?php echo $p['nama']?></h4>
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <div class="modal-content">
+                                                                <form method="post">
+                                                                    <!-- Modal Header -->
+                                                                    <div class="modal-header">
+                                                                    <h4 class="modal-title">Edit Barang <?php echo $p['nama']?></h4>
+                                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                    </div>
+                                                                    
+                                                                    <!-- Modal body -->
+                                                                    <div class="modal-body">
+                                                                        <div class="form-group">
+                                                                            <label for="nama">Nama Barang</label>
+                                                                            <input type="text" id="nama" name="nama" class="form-control" value="<?php echo $p['nama'] ?>">
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label for="merk">Merk</label>
+                                                                            <input type="text" id="merk" name="merk" class="form-control" value="<?php echo $p['merk'] ?>">
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label for="jenis">Jenis</label>
+                                                                            <select class="custom-select form-control" id="jenis" name="jenis">
+                                                                                <option value="Organik" <?php if ($p['jenis']=="Organik") { ?> selected <?php } ?>>Organik</option>
+                                                                                <option value="Anorganik" <?php if ($p['jenis']=="Anorganik") { ?> selected <?php } ?>>Anorganik</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label for="ukuran">Ukuran</label>
+                                                                            <input type="text" id="ukuran" name="ukuran" class="form-control" value="<?php echo $p['ukuran'] ?>">
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label for="satuan">Satuan</label>
+                                                                            <select class="custom-select form-control" id="satuan" name="satuan">
+                                                                                <option value="Kilogram" <?php if ($p['satuan']=="Kilogram") { ?> selected <?php } ?>>Kilogram</option>
+                                                                                <option value="Kwintal" <?php if ($p['satuan']=="Kwintal") { ?> selected <?php } ?>>Kwintal</option>
+                                                                                <option value="Ton" <?php if ($p['satuan']=="Ton") { ?> selected <?php } ?>>Ton</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label for="lokasi">Lokasi</label>
+                                                                            <select class="custom-select form-control" id="lokasi" name="lokasi">
+                                                                                <option value="Gudang 1" <?php if ($p['lokasi']=="Gudang 1") { ?> selected <?php } ?>>Gudang 1</option>
+                                                                                <option value="Gudang 2" <?php if ($p['lokasi']=="Gudang 2") { ?> selected <?php } ?>>Gudang 2</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label for="stock">Stock</label>
+                                                                            <input type="text" id="stock" name="stock" class="form-control" value="<?php echo $p['stock'] ?>" disabled>
+                                                                            <input type="hidden" name="id_barang" value="<?= $idb; ?>">
+                                                                        </div>
+                                                                        
+                                                                        <!-- Modal footer -->
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                            <button type="submit" class="btn btn-success" name="update">Save</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
                                                             </div>
-                                                            
-                                                            <!-- Modal body -->
-                                                            <div class="modal-body">
-                                                                <div class="form-group">
-                                                                    <label for="nama">Nama Barang</label>
-                                                                    <input type="text" id="nama" name="nama" class="form-control" value="<?php echo $p['nama'] ?>">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="merk">Merk</label>
-                                                                    <input type="text" id="merk" name="merk" class="form-control" value="<?php echo $p['merk'] ?>">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="jenis">Jenis</label>
-                                                                    <select class="custom-select form-control" id="jenis" name="jenis">
-                                                                        <option value="Organik" <?php if ($p['jenis']=="Organik") { ?> selected <?php } ?>>Organik</option>
-                                                                        <option value="Anorganik" <?php if ($p['jenis']=="Anorganik") { ?> selected <?php } ?>>Anorganik</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="ukuran">Ukuran</label>
-                                                                    <input type="text" id="ukuran" name="ukuran" class="form-control" value="<?php echo $p['ukuran'] ?>">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="satuan">Satuan</label>
-                                                                    <select class="custom-select form-control" id="satuan" name="satuan">
-                                                                        <option value="Kilogram" <?php if ($p['satuan']=="Kilogram") { ?> selected <?php } ?>>Kilogram</option>
-                                                                        <option value="Kwintal" <?php if ($p['satuan']=="Kwintal") { ?> selected <?php } ?>>Kwintal</option>
-                                                                        <option value="Ton" <?php if ($p['satuan']=="Ton") { ?> selected <?php } ?>>Ton</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="lokasi">Lokasi</label>
-                                                                    <select class="custom-select form-control" id="lokasi" name="lokasi">
-                                                                        <option value="Gudang 1" <?php if ($p['lokasi']=="Gudang 1") { ?> selected <?php } ?>>Gudang 1</option>
-                                                                        <option value="Gudang 2" <?php if ($p['lokasi']=="Gudang 2") { ?> selected <?php } ?>>Gudang 2</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="stock">Stock</label>
-                                                                    <input type="text" id="stock" name="stock" class="form-control" value="<?php echo $p['stock'] ?>" disabled>
-                                                                    <input type="hidden" name="id_barang" value="<?= $idb; ?>">
-                                                                </div>
-                                                                
-                                                                <!-- Modal footer -->
-                                                                <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                <button type="submit" class="btn btn-success" name="update">Save</button>
-                                                            </div>
-                                                            </form>
-                                                        </div>
                                                         </div>
                                                     </div>
 
                                                     <!-- The Modal -->
-                                                    <div class="modal fade" id="del<?=$idb;?>">
+                                                    <div class="modal fade" id="del<?= $idb; ?>">
                                                         <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                        <form method="post">
-                                                            <!-- Modal Header -->
-                                                            <div class="modal-header">
-                                                            <h4 class="modal-title">Hapus Barang <?php echo $p['nama']?> - <?php echo $p['jenis']?> - <?php echo $p['ukuran']?></h4>
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <div class="modal-content">
+                                                                <form method="post">
+                                                                    <!-- Modal Header -->
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title">Hapus Barang <?php echo $p['nama']?> - <?php echo $p['jenis']?> - <?php echo $p['ukuran']?></h4>
+                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                    </div>
+                                                                    
+                                                                    <!-- Modal body -->
+                                                                    <div class="modal-body"> Apakah Anda yakin ingin menghapus barang ini dari daftar persediaan barang?
+                                                                        <input type="hidden" name="id_barang" value="<?=$idb;?>">
+                                                                    </div>
+                                                                    
+                                                                    <!-- Modal footer -->
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                                        <button type="submit" class="btn btn-success" name="hapus">Hapus</button>
+                                                                    </div>
+                                                                </form>
                                                             </div>
-                                                            
-                                                            <!-- Modal body -->
-                                                            <div class="modal-body">
-                                                            Apakah Anda yakin ingin menghapus barang ini dari daftar persediaan barang?
-                                                            <input type="hidden" name="id_barang" value="<?=$idb;?>">
-                                                            </div>
-                                                            
-                                                            <!-- Modal footer -->
-                                                            <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                                            <button type="submit" class="btn btn-success" name="hapus">Hapus</button>
-                                                            </div>
-                                                            </form>
-                                                        </div>
                                                         </div>
                                                     </div>
 
