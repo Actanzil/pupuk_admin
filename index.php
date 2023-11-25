@@ -112,9 +112,7 @@ if (isset($_POST['btn-login'])) {
 	<link rel="icon" type="image/png" href="favicon.png">
 </head>
 
-<body>
-<body style="background-color: #666666;">
-	
+<body style="background-color: #666666;">	
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
@@ -162,30 +160,22 @@ if (isset($_POST['btn-login'])) {
 			</div>
 		</div>
 	</div>
-	
-	
-
-	
-	
-<!--===============================================================================================-->
-	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/animsition/js/animsition.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/bootstrap/js/popper.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/daterangepicker/moment.min.js"></script>
-	<script src="vendor/daterangepicker/daterangepicker.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/countdowntime/countdowntime.js"></script>
-<!--===============================================================================================-->
-	<script src="js/main.js"></script>
-
-
-
+	<!--===============================================================================================-->
+		<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+	<!--===============================================================================================-->
+		<script src="vendor/animsition/js/animsition.min.js"></script>
+	<!--===============================================================================================-->
+		<script src="vendor/bootstrap/js/popper.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<!--===============================================================================================-->
+		<script src="vendor/select2/select2.min.js"></script>
+	<!--===============================================================================================-->
+		<script src="vendor/daterangepicker/moment.min.js"></script>
+		<script src="vendor/daterangepicker/daterangepicker.js"></script>
+	<!--===============================================================================================-->
+		<script src="vendor/countdowntime/countdowntime.js"></script>
+	<!--===============================================================================================-->
+		<script src="js/main.js"></script>
 </body>
 
 </html>
