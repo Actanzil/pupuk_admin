@@ -35,7 +35,7 @@
 
 			if ($data['level'] == "admin") {
 				// buat session login dan username
-				$_SESSION['user'] = $data['nickname'];
+				$_SESSION['user'] = $data['username'];
 				$_SESSION['user_login'] = $data['username'];
 				$_SESSION['id'] = $data['id_user'];
 				$_SESSION['level'] = "admin";
