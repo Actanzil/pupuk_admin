@@ -235,45 +235,32 @@
                                 </div>
                                 <div class="market-status-table mt-4">
                                     <div class="table-responsive">
-										<table class="table table-bordered table-hover"><thead class="thead-dark">  
-										<tr>
-                                            <th><center> No </center></th>
-                                            <th><center> Catatan </center></th>
-                                            <th><center> Ditulis oleh </center></th>
-                                            <th><center> Action </center></th>
-										</tr></thead>
-										<form method ='POST' action = 'notes.php'>
-										<tr class="table-active">
-											<td><center><input type = 'hidden'/></center> </td>
-											<td><center> <input type = 'text' class='form-control' name = 'konten' required /></center> </td>
-											<td><center>Saya, <strong><?=$_SESSION['user'];?></strong> <span class="badge badge-secondary"><?=$_SESSION['level'];?></span></center> </td>
-											<td><center><input type = 'submit' name = 'submit'  class='btn btn-primary btn-sm' value = 'Add Note'/></center></td>
-											<tr>
-										</form>
-										<?php  
-										// Perintah untuk menampilkan data
-										$queri="SELECT * FROM notes WHERE status='aktif' ORDER BY id DESC" ;  //menampikan SEMUA data dari tabel
-
-										$hasil=MySQLi_query ($conn,$queri);    //fungsi untuk SQL
-
-										// nilai awal variabel untuk no urut
-										$i = 1;
-
-										// perintah untuk membaca dan mengambil data dalam bentuk array
-										while ($data = mysqli_fetch_array ($hasil)){
-										$id = $data['id'];
-										echo "  <form method ='POST' action = 'done.php'>
-										    <tr>
-										    <td><center>".$i."</center></td>
-										    <td><strong><center>".$data['contents']."</center></strong></td>
-										    <td><strong><center>".$data['admin']."</center></strong></td>
-										    <td><center><input type = 'hidden' name = 'id' value = '".$data['id']."'> <input type='submit' name = 'submit'  class='btn btn-danger btn-sm' value = 'Delete' formaction='del.php' /></center></td>
-										    </form></td>
-										    </tr> </form>
-										    ";
-										$i++; 
-										}
-										?>
+										<table id="dataTable4" class="table table-hover">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>ID Barang</th>
+                                                    <th>Nama Barang</th>
+                                                    <th>Jenis</th>
+                                                    <th>Merk</th>
+                                                </tr> 
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                    $brg = mysqli_query($conn, "SELECT * FROM tb_barang ORDER BY id_barang ASC");
+                                                    $no = 1;
+                                                    while ($b = mysqli_fetch_array($brg)) {
+                                                        $id_barang = $b['id_barang'];
+                                                    ?>
+                                                <tr>
+                                                    <td><?php echo $no++ ?></td>
+                                                    <td><?php echo $b['id_barang'] ?></td>
+                                                    <td><?php echo $b['nama'] ?></td>
+                                                    <td><?php echo $b['jenis'] ?></td>
+                                                    <td><?php echo $b['merk'] ?></td>
+                                                </tr>
+                                                <?php } ?>
+                                            </tbody>
 										</table>
                                     </div>
                                 </div>
