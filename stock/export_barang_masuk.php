@@ -20,80 +20,81 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 	<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144808195-1"></script>
-		<script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144808195-1"></script>
+	<script>
 		window.dataLayer = window.dataLayer || [];
 		function gtag(){dataLayer.push(arguments);}
 		gtag('js', new Date());
 
 		gtag('config', 'UA-144808195-1');
-		</script>
+	</script>
 
 </head>
 
 <body>
-		<div class="container">
-			<h2>Transaksi Barang : Masuk</h2>
-				<div class="data-tables datatable-dark">
-					<table class="display" id="dataTable3" style="width:100%"><thead class="thead-dark">
-											<tr>
-												<th>No</th>
-												<th>Tanggal</th>
-												<th>Nama Barang</th>
-												<th>Jenis</th>
-												<th>Merk</th>
-												<th>Ukuran</th>
-												<th>Jumlah</th>
-												<th>Satuan</th>
-												<th>Keterangan</th>
-												
-												<!--<th>Opsi</th>-->
-											</tr></thead><tbody>
-											<?php 
-											$brg=mysqli_query($conn,"SELECT * FROM tb_barang_masuk tbm, tb_barang tb WHERE tbm.id_barang = tb.id_barang ORDER BY tbm.id_masuk ASC");
-											$no=1;
-											while($b=mysqli_fetch_array($brg)){
-
-												?>
-												
-												<tr>
-													<td><?php echo $no++ ?></td>
-													<td><?php $tanggals=$b['tanggal']; echo date("d-M-Y", strtotime($tanggals)) ?></td>
-													<td><?php echo $b['nama'] ?></td>
-													<td><?php echo $b['jenis'] ?></td>
-													<td><?php echo $b['merk'] ?></td>
-													<td><?php echo $b['ukuran'] ?></td>
-													<td><?php echo $b['jumlah'] ?></td>
-													<td><?php echo $b['satuan'] ?></td>
-													<td><?php echo $b['keterangan'] ?></td>
-												</tr>		
-												<?php 
-											}
-											?>
-										</tbody>
-										</table>
-								</div>
-						</div>
+	<div class="container">
+		<h2>Transaksi Barang : Masuk</h2>
+			<div class="data-tables datatable-dark">
+				<table class="display" id="dataTable3" style="width:100%">
+					<thead class="thead-dark">
+						<tr>
+							<th>No</th>
+							<th>Tanggal</th>
+							<th>Nama Barang</th>
+							<th>Jenis</th>
+							<th>Merk</th>
+							<th>Ukuran</th>
+							<th>Jumlah</th>
+							<th>Satuan</th>
+							<th>Keterangan</th>
+							
+							<!--<th>Opsi</th>-->
+						</tr>
+					</thead>
+					<tbody>
+						<?php 
+						$brg=mysqli_query($conn,"SELECT * FROM tb_barang_masuk tbm, tb_barang tb WHERE tbm.id_barang = tb.id_barang ORDER BY tbm.id_masuk ASC");
+						$no=1;
+						while($b=mysqli_fetch_array($brg)){
+							?>
+						<tr>
+							<td><?php echo $no++ ?></td>
+							<td><?php $tanggals=$b['tanggal']; echo date("d-M-Y", strtotime($tanggals)) ?></td>
+							<td><?php echo $b['nama'] ?></td>
+							<td><?php echo $b['jenis'] ?></td>
+							<td><?php echo $b['merk'] ?></td>
+							<td><?php echo $b['ukuran'] ?></td>
+							<td><?php echo $b['jumlah'] ?></td>
+							<td><?php echo $b['satuan'] ?></td>
+							<td><?php echo $b['keterangan'] ?></td>
+						</tr>		
+						<?php 
+						}
+						?>
+					</tbody>
+				</table>
+		</div>
+	</div>
 	
-<script>
-$(document).ready(function() {
-    $('#dataTable3').DataTable( {
-        dom: 'Bfrtip',
-        buttons: ['copy', 'csv', 'excel', 'pdf', 'print',]
-    } );
-} );
+	<script>
+	$(document).ready(function() {
+	$('#dataTable3').DataTable( {
+		dom: 'Bfrtip',
+		buttons: ['copy', 'csv', 'excel', 'pdf', 'print',]
+	} );
+	} );
 
-</script>
+	</script>
 
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
 
 	
 
