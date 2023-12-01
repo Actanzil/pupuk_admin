@@ -12,18 +12,26 @@
   $query = mysqli_query($conn,"INSERT INTO tb_barang (nama, jenis, merk, ukuran, satuan, lokasi, stock)VALUES('$nama','$jenis','$merk','$ukuran','$satuan','$lokasi','$stock')");
   
   if ($query){
-    $_SESSION["notification"] = [
-      'type' => 'success',
-      'message' => 'Data successfully added!'
-    ];
+    // notifikasi
+    $notificationType = "success";
+    $notificationCaption = "Selamat !!!";
+    $notificationMessage = "Data berhasil ditambahkan!";
   } else { 
-    $_SESSION["notification"] = [
-      'type' => 'warning',
-      'message' => 'Failed to add data!'
-    ];
-    
+    // notifikasi
+    $notificationType = "warning";
+    $notificationCaption = "Mohon maaf !!!";
+    $notificationMessage = "Gagal Menambahkan data!";
   }
+  // Set notifikasi dalam format array
+  $notification = [
+    'type' => $notificationType,
+    'caption' => $notificationCaption,
+    'message' => $notificationMessage
+  ];
 
-  header("Location: page_barang.php");
+  // Convert array ke JSON dan encode untuk ditransfer melalui URL
+  $encodedNotification = urlencode(json_encode($notification));
+
+  header("Location: page_barang.php?notification=$encodedNotification");
   exit();
 ?>

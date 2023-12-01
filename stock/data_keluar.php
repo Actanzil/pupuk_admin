@@ -354,18 +354,22 @@
                                     ";
                             }
 
-                            // Tampilkan notifikasi dari Tambah dari page_konfirmasi.php
-                            if (isset($_SESSION['notification'])) {
-                                $notificationType = $_SESSION['notification']['type'];
-                                $notificationMessage = $_SESSION['notification']['message'];
+                            // Ambil notifikasi Tambah dari URL dan decode dari JSON
+                            if (isset($_GET['notification'])) {
+                                $encodedNotification = $_GET['notification'];
+                                $decodedNotification = json_decode(urldecode($encodedNotification), true);
 
-                                echo "  <div class='alert alert-$notificationType alert-dismissible fade show' role='alert'>
-                                    <strong>Selamat!!!</strong> $notificationMessage.
+                                // Tampilkan notifikasi
+                                $notificationType = $decodedNotification['type'];
+                                $notificationCaption = $decodedNotification['caption'];
+                                $notificationMessage = $decodedNotification['message'];
+
+                                echo "
+                                <div class='alert alert-$notificationType alert-dismissible fade show' role='alert'>
+                                    <strong>$notificationCaption</strong> $notificationMessage.
                                     <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                                 </div>
-                                ";
-
-                                
+                                <meta http-equiv='refresh' content='2; url= data_keluar.php'/> ";
                             }
                         ?>
                     </div>
