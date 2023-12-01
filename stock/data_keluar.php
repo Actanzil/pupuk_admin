@@ -28,12 +28,14 @@
             //cek apakah berhasil
             switch ($updatedata1 && $queryx) {
                 case true:
+                    $caption = "Selamat !!!";
                     $notification = "Data berhasil diperbarui!";
                     $alertType = "success";
                     break;
                 default:
+                    $caption = "Mohon maaf !!!";
                     $notification = "Gagal memperbarui data!";
-                    $alertType = "warning";
+                    $alertType = "danger";
             }
         } else {
             //ternyata inputan baru lebih kecil jumlah masuknya, maka kurangi lagi stock barang
@@ -46,14 +48,15 @@
     
             //cek apakah berhasil
             switch ($query1 && $updatedata) {
-    
                 case true:
+                    $caption = "Selamat !!!";
                     $notification = "Data berhasil diperbarui!";
                     $alertType = "success";
                     break;
                 default:
+                    $caption = "Mohon maaf !!!";
                     $notification = "Gagal memperbarui data!";
-                    $alertType = "warning";
+                    $alertType = "danger";
             }
         };
     };
@@ -80,12 +83,14 @@
         switch ($queryx && $del) {
     
             case true:
+                $caption = "Peringatan !!!";
                 $notification = "Data berhasil dihapus!";
-                $alertType = "success";
+                $alertType = "warning";
                 break;
             default:
+                $caption = "Mohon maaf !!!";
                 $notification = "Gagal menghapus data!";
-                $alertType = "warning";
+                $alertType = "danger";
         }
     };
 ?>
@@ -348,7 +353,7 @@
                             // Tampilkan notifikasi dari Update dan Delete
                             if (!empty($notification)) {
                                 echo "  <div class='alert alert-$alertType alert-dismissible fade show' role='alert'>
-                                            <strong>Selamat!!!</strong> $notification.
+                                            <strong>$caption</strong> $notification.
                                             <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                                         </div>
                                     ";

@@ -17,12 +17,14 @@
         
         switch ($updatedata) {
             case true:
+                $caption = "Selamat !!!";
                 $notification = "Data berhasil diperbarui!";
                 $alertType = "success";
                 break;
             default:
+                $caption = "Mohon maaf !!!";
                 $notification = "Gagal memperbarui data!";
-                $alertType = "warning";
+                $alertType = "danger";
         }
     };
 
@@ -37,12 +39,14 @@
         //cek apakah berhasil
         switch ($delete && $deltabelkeluar && $deltabelmasuk) {
             case true:
+                $caption = "Peringatan !!!";
                 $notification = "Data berhasil dihapus!";
-                $alertType = "success";
+                $alertType = "warning";
                 break;
             default:
+                $caption = "Mohon maaf !!!";
                 $notification = "Gagal menghapus data!";
-                $alertType = "warning";
+                $alertType = "danger";
         }
     };
 ?>
@@ -321,7 +325,7 @@
                             // Tampilkan notifikasi dari Update dan Delete
                             if (!empty($notification)) {
                                 echo "  <div class='alert alert-$alertType alert-dismissible fade show' role='alert'>
-                                            <strong>Selamat !!!</strong> $notification.
+                                            <strong>$caption</strong> $notification.
                                             <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                                         </div>
                                     ";
