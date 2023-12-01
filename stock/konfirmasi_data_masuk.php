@@ -1,9 +1,9 @@
 <?php
   include '../dbconnect.php';
-  $id_barang = $_POST['id_barang']; // ini ID barang nya
-  $qty = $_POST['qty'];
+  $id_barang = $_POST['id_barang']; // id barang
+  $qty = $_POST['jumlah'];
   $tanggal = (new \DateTime())->format('Y-m-d');
-  $ket = $_POST['ket'];
+  $ket = $_POST['keterangan'];
 
   $dt = mysqli_query($conn, "SELECT * FROM tb_barang WHERE id_barang = '$id_barang'");
   $data = mysqli_fetch_array($dt);
