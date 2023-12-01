@@ -391,17 +391,23 @@
                     <tbody>
                         <!-- Item -->
                         <?php
+                            // Limit untuk membatasi jumlah data pada satu halaman
                             $batas = 5;
                             $halaman = isset($_GET['halaman']) ? (int)$_GET['halaman'] : 1;
                             $posisi = ($halaman - 1) * $batas;
 
+                            // Inisialisasi katakunci pencarian
                             $katakunci = isset($_GET['katakunci']) ? $_GET['katakunci'] : '';
+                            
+                            // Query untuk menampilkan semua data pada tabel tb_barang_masuk yang telah digabungkan dengan data dari tb_barang
                             $sql = "SELECT * FROM `tb_barang_masuk` `tbm` INNER JOIN `tb_barang` `tb` ON `tbm`.`id_barang` = `tb`.`id_barang`";
                             
+                            // Logika untuk pencarian
                             if (!empty($katakunci)) {
                                 $sql .= " WHERE `tb`.`nama` LIKE '%" . mysqli_real_escape_string($conn, $katakunci) . "%'";
                             }
                             
+                            // Mengurutkan data berdasarkan nama dan membatasi data sesuai batasan yang telah ditentukan
                             $sql .= " ORDER BY `tb`.`nama` ASC LIMIT $posisi, $batas";
 
                             $brg = mysqli_query($conn, $sql);
@@ -522,8 +528,11 @@
                     <nav aria-label="Page navigation example">
                         <ul class="pagination mb-0">
                         <?php
+                            // Query untuk menghitung jumlah data pada tabel
                             $query_total = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_barang_masuk");
                             $data_total = mysqli_fetch_assoc($query_total);
+                            
+                            // Membagi data sesuai dengan batasan yang telah ditentukan
                             $total_halaman = ceil($data_total['total'] / $batas);
 
                             if ($halaman > 1) {
