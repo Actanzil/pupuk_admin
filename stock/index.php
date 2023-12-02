@@ -97,7 +97,7 @@
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a href="data_keluar" class="nav-link">
+                        <a href="data_keluar.php" class="nav-link">
                             <span class="sidebar-icon">
                                 <i class="bi bi-cart-dash-fill"></i>
                             </span>
@@ -172,7 +172,7 @@
                                 <div class="card-header">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <h2 class="fs-5 fw-bold mb-0">Data Barang</h2>
+                                            <h2 class="fs-5 fw-bold mb-0">Data Transaksi Barang</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -184,23 +184,54 @@
                                             <th class="border-bottom" scope="col">Nama Barang</th>
                                             <th class="border-bottom" scope="col">Jenis</th>
                                             <th class="border-bottom" scope="col">Merk</th>
+                                            <th class="border-bottom" scope="col">Transaksi</th>
+                                            <th class="border-bottom" scope="col">Kategori</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                                $brg = mysqli_query($conn, "SELECT * FROM tb_barang ORDER BY id_barang ASC");
-                                                while ($b = mysqli_fetch_array($brg)) {
-                                                    $id_barang = $b['id_barang'];
+                                                $query_brg = (" SELECT id_barang, nama, jenis, merk, tanggal_transaksi, kategori
+                                                                FROM (  SELECT b.id_barang, b.nama, b.jenis, b.merk, bm.tanggal as tanggal_transaksi, 'Masuk' as kategori
+                                                                        FROM tb_barang b
+                                                                        LEFT JOIN tb_barang_masuk bm ON b.id_barang = bm.id_barang
+                                                                        WHERE bm.id_barang IS NOT NULL
+                                                    
+                                                                        UNION
+                                                    
+                                                                        SELECT b.id_barang, b.nama, b.jenis, b.merk, bk.tanggal as tanggal_transaksi, 'Keluar' as kategori
+                                                                        FROM tb_barang b
+                                                                        LEFT JOIN tb_barang_keluar bk ON b.id_barang = bk.id_barang
+                                                                        WHERE bk.id_barang IS NOT NULL
+                                                                    ) AS combined_data
+                                                                ORDER BY tanggal_transaksi DESC, id_barang ASC;");
+                                                $result_brg = mysqli_query($conn, $query_brg);
+                                                while ($b = mysqli_fetch_array($result_brg)) {
+                                                    $tanggal_format = date("d F Y", strtotime($b['tanggal_transaksi']));
                                                 ?>
                                             <tr>
                                                 <th class="text-gray-900" scope="row"><?php echo $b['id_barang'] ?></th>
                                                 <td class="fw-bolder text-gray-500"><?php echo $b['nama'] ?></td>
                                                 <td class="fw-bolder text-gray-500"><?php echo $b['jenis'] ?></td>
                                                 <td class="fw-bolder text-gray-500"><?php echo $b['merk'] ?></td>
+                                                <td class="fw-bolder text-gray-500"><?php echo $tanggal_format ?></td>
+                                                <td class="fw-bolder text-gray-500"><?php echo $b['kategori'] ?></td>
                                             </tr>
                                             <?php } ?>
                                         </tbody>
                                     </table>
+                                </div>
+                                
+                                <!-- Pagination -->
+                                <div class="card-footer">
+                                    <nav aria-label="...">
+                                    <ul class="pagination pagination-sm">
+                                        <li class="page-item active" aria-current="page">
+                                        <span class="page-link">1</span>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
@@ -210,24 +241,112 @@
                 <div class="col-12 col-xl-4">
                     <div class="col-12 px-0 mb-4">
                         <div class="card border-0 shadow">
+                            <?php
+                                // Menghitung total transaksi dari tabel tb_barang_masuk
+                                $query_total_masuk = "SELECT SUM(jumlah) as total_masuk FROM tb_barang_masuk";
+                                $result_total_masuk = $conn->query($query_total_masuk);
+                                $row_total_masuk = $result_total_masuk->fetch_assoc();
+                                $total_masuk = $row_total_masuk['total_masuk'];
+
+                                // Menghitung total transaksi dari tabel tb_barang_keluar
+                                $query_total_keluar = "SELECT SUM(jumlah) as total_keluar FROM tb_barang_keluar";
+                                $result_total_keluar = $conn->query($query_total_keluar);
+                                $row_total_keluar = $result_total_keluar->fetch_assoc();
+                                $total_keluar = $row_total_keluar['total_keluar'];
+
+                                // Mengambil data dari tabel tb_barang_masuk
+                                $query_masuk = "SELECT MONTH(tanggal) as bulan, SUM(jumlah) as total_masuk FROM tb_barang_masuk GROUP BY MONTH(tanggal)";
+                                $result_masuk = $conn->query($query_masuk);
+
+                                // Mengambil data dari tabel tb_barang_keluar
+                                $query_keluar = "SELECT MONTH(tanggal) as bulan, SUM(jumlah) as total_keluar FROM tb_barang_keluar GROUP BY MONTH(tanggal)";
+                                $result_keluar = $conn->query($query_keluar);
+
+                                // Menyusun data untuk digunakan dalam script ApexCharts
+                                $data_masuk = [];
+                                $data_keluar = [];
+                                $bulan_label = [];
+
+                                while ($row = $result_masuk->fetch_assoc()) {
+                                    $data_masuk[] = $row['total_masuk'];
+                                }
+
+                                while ($row = $result_keluar->fetch_assoc()) {
+                                    $data_keluar[] = $row['total_keluar'];
+                                    $bulan_label[] = date("M", mktime(0, 0, 0, $row['bulan'], 1));
+                                }
+
+                            ?>
                             <div class="card-header d-flex flex-row align-items-center flex-0 border-bottom">
                                 <div class="d-block">
                                     <div class="h6 fw-normal text-gray mb-2">Total Transaksi</div>
-                                    <h2 class="h3 fw-extrabold">452</h2>
+                                    <h2 class="h3 fw-extrabold"><?= $total_masuk + $total_keluar; ?></h2>
                                 </div>
                                 <div class="d-block ms-auto">
                                     <div class="d-flex align-items-center text-end mb-2">
-                                        <span class="dot rounded-circle bg-gray-800 me-2"></span>
+                                        <span class="dot rounded-circle bg-info me-2"></span>
                                         <span class="fw-normal small">Data Masuk</span>
                                     </div>
                                     <div class="d-flex align-items-center text-end">
-                                        <span class="dot rounded-circle bg-secondary me-2"></span>
+                                        <span class="dot rounded-circle bg-success me-2"></span>
                                         <span class="fw-normal small">Data Keluar</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-body p-2">
-                                <div class="ct-chart-ranking ct-golden-section ct-series-a"></div>
+                                <!-- Column Chart -->
+                                <div id="columnChart"></div>
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", () => {
+                                        new ApexCharts(document.querySelector("#columnChart"), {
+                                        series: [{
+                                            name: 'Data Masuk',
+                                            data: <?= json_encode($data_masuk); ?>
+                                        }, {
+                                            name: 'Data Keluar',
+                                            data: <?= json_encode($data_keluar); ?>
+                                        }],
+                                        chart: {
+                                            type: 'bar',
+                                            height: 290
+                                        },
+                                        plotOptions: {
+                                            bar: {
+                                            horizontal: false,
+                                            columnWidth: '55%',
+                                            endingShape: 'rounded'
+                                            },
+                                        },
+                                        dataLabels: {
+                                            enabled: false
+                                        },
+                                        stroke: {
+                                            show: true,
+                                            width: 2,
+                                            colors: ['transparent']
+                                        },
+                                        xaxis: {
+                                            categories: <?= json_encode($bulan_label); ?>
+                                        },
+                                        yaxis: {
+                                            title: {
+                                            text: 'Banyak Transaksi'
+                                            }
+                                        },
+                                        fill: {
+                                            opacity: 1
+                                        },
+                                        tooltip: {
+                                            y: {
+                                            formatter: function(val) {
+                                                return val + " Data"
+                                            }
+                                            }
+                                        }
+                                        }).render();
+                                    });
+                                </script>
+                                <!-- End Column Chart -->
                             </div>
                         </div>
                     </div>
@@ -237,6 +356,9 @@
             </div>
 
         </main>
+        
+        <!-- Core -->
+        <script src="../vendor/apexcharts/apexcharts.min.js"></script>
 
         <!-- Core -->
         <script src="../vendor/@popperjs/core/dist/umd/popper.min.js"></script>
