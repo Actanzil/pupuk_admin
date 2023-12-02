@@ -373,8 +373,13 @@
                         <?php
                             // Limit untuk membatasi jumlah data pada satu halaman
                             $batas = 5;
-                            $halaman = isset($_GET['halaman']) ? (int)$_GET['halaman'] : 1;
-                            $posisi = ($halaman - 1) * $batas;
+                            if(!isset($_GET['halaman'])){
+                                $posisi = 0;
+                                $halaman = 1;
+                            }else{
+                                $halaman = $_GET['halaman'];
+                                $posisi = ($halaman-1) * $batas;
+                            }
 
                             // Inisialisasi katakunci pencarian
                             $katakunci = isset($_GET['katakunci']) ? $_GET['katakunci'] : '';
@@ -519,25 +524,40 @@
                 <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination mb-0">
-                        <?php
-                            // Query untuk menghitung jumlah data pada tabel
-                            $query_total = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_barang");
-                            $data_total = mysqli_fetch_assoc($query_total);
-
-                            // Membagi data sesuai dengan batasan yang telah ditentukan
-                            $total_halaman = ceil($data_total['total'] / $batas);
-
-                            if ($halaman > 1) {
-                                echo '<li class="page-item"><a class="page-link" href="page_barang.php?halaman=' . ($halaman - 1) . '"><i class="bi bi-chevron-left"></i></a></li>';
-                            }
-
-                            for ($i = 1; $i <= $total_halaman; $i++) {
-                                echo '<li class="page-item ' . ($i == $halaman ? 'active' : '') . '"><a class="page-link" href="page_barang.php?halaman=' . $i . '">' . $i . '</a></li>';
-                            }
-
-                            if ($halaman < $total_halaman) {
-                                echo '<li class="page-item"><a class="page-link" href="page_barang.php?halaman=' . ($halaman + 1) . '"><i class="bi bi-chevron-right"></i></a></li>';
-                            }
+                            <?php
+                                //hitung jumlah semua data
+                                $sql_jum = "SELECT * FROM tb_barang";
+                                if (!empty($katakunci)){
+                                    $sql_jum .= " WHERE nama LIKE '%" . mysqli_real_escape_string($conn, $katakunci) . "%'";
+                                }
+                                $sql_jum .= " ORDER BY nama ASC";
+                                $query_jum = mysqli_query($conn,$sql_jum);
+                                $jum_data = mysqli_num_rows($query_jum);
+                                $jum_halaman = ceil($jum_data/$batas);
+                                
+                                if($jum_halaman==0){
+                                    //tidak ada halaman
+                                } else if($jum_halaman==1){
+                                    echo "<li class='page-item active'><a class='page-link'>1</a></li>";
+                                } else {
+                                    $sebelum = $halaman-1;
+                                    $setelah = $halaman+1;
+                                    if($halaman!=1){
+                                        echo "<li class='page-item'><a class='page-link' href='page_barang.php?halaman=$sebelum'><i class='bi bi-chevron-left'></i></a></li>";
+                                    }
+                                    for($i=1; $i<=$jum_halaman; $i++){
+                                        if ($i > $halaman - 5 and $i < $halaman + 5 ) {
+                                            if($i!=$halaman){
+                                                echo "<li class='page-item'><a class='page-link' href='page_barang.php?halaman=$i'>$i</a></li>";
+                                            } else {
+                                                echo "<li class='page-item active'><a class='page-link'>$i</a></li>";
+                                        }
+                                        }
+                                    }
+                                    if($halaman!=$jum_halaman){
+                                        echo "<li class='page-item'><a class='page-link' href='page_barang.php?halaman=$setelah'><i class='bi bi-chevron-right'></i></a></li>";
+                                    }
+                                }
                             ?>
                         </ul>
                     </nav>
